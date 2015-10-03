@@ -159,12 +159,12 @@ def picknewpiece(piece, nwsq):
     newpiece = random.choice([1, 2, 2])
     Box[piece.color].append(piece)
     if newpiece == 1:
-        Promo = Piece('Hnight', c, C, 3, nwsq, img='%sKnight.png' % c)
+        promo = Piece('Hnight', c, C, 3, nwsq, img='%sKnight.png' % c)
     else:
-        Promo = Piece('Queen', c, C, 9, nwsq, img='%sQueen.png' % c)
-    Promo.moveimg()
-    print 'Promotion: The new piece is a %s' % Promo.type
-    return Promo
+        promo = Piece('Queen', c, C, 9, nwsq, img='%sQueen.png' % c)
+    promo.moveimg()
+    print 'Promotion: The new piece is a %s' % promo.type
+    return promo
 
 # function that moves pieces in the borddict
 def movepiece(piece, oldsquare, newsquare):
