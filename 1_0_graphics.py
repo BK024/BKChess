@@ -205,7 +205,7 @@ def movepiece(piece, oldsquare, newsquare):
         del enpassantdict[newsquare]
         passedsquare = passedpawn.coord
         Piece('_ield', 'Neutr', 0, 0, passedsquare)
-    print '%s van %r naar %r' % (piece.name, oldsquare, newsquare)
+    print '%s from %r to %r' % (piece.name, oldsquare, newsquare)
     if piece.type == 'Pawn' and oldsquare[1] - newsquare[1] == -2:
         enpassantdict[(oldsquare[0], oldsquare[1]+1)] = piece
     if piece.type == 'Pawn' and newsquare[1] in [8, 1]:
@@ -299,7 +299,7 @@ def savegamestate(castleopsboth):
         situationstring += str(item)
     hashedstring = hash(situationstring)
     if hashedstring in situationsdict1:
-        print 'Twee keer dezelfde situatie!'
+        print 'Same situation twice!'
         if hashedstring in situationsdict2:
             return True
         else:
@@ -318,17 +318,17 @@ def newgame(curcolor):
     global fiftycount
     while 1:
         if fiftycount == 50:
-            return '50 zetten zonder slaan of pionbeweging.'
+            return '50 without taking a piece or pawn movement.'
         valid_move = False
         print
-        print 'Een nieuwe beurt', count,
+        print 'A new turn', count
         raw_input()
         hascastled = False
         curcolor = -curcolor
         castleops = castlecheck(curcolor)
         castleopsboth = castleops + castlecheck(-curcolor)
         if savegamestate(castleopsboth):
-            return 'Drie keer dezelfde situatie! Remise.'
+            return 'Three times the same situation! Draw.'
         if castleops and random.choice([0, 0, 0, 1]):
             moves = random.choice(castleops)
             for move in moves:
@@ -349,9 +349,9 @@ def newgame(curcolor):
                 chosenpiece = moveskeys.pop()
             else:
                 if check:
-                    return 'Schaakmat!'
+                    return 'Checkmate!'
                 else:
-                    return 'Pat! Remise.'
+                    return 'Pat! Draw.'
             chosenoptions = movesdict[chosenpiece]
             random.shuffle(chosenoptions)
             while not valid_move:
@@ -368,7 +368,7 @@ def newgame(curcolor):
                 checkinglist.append(next(new_checkgen))
                 check = True
                 for i in checkinglist:
-                    print 'Schaak gezet door %s' % i[0].name
+                    print 'Checked by %s' % i[0].name
             except StopIteration:
                 done = True
         count += 1
