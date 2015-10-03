@@ -318,7 +318,7 @@ def newgame(curcolor):
     global fiftycount
     while 1:
         if fiftycount == 50:
-            return '50 without taking a piece or pawn movement.'
+            return '50 without capturing a piece or pawn movement.'
         valid_move = False
         print
         print 'A new turn', count
