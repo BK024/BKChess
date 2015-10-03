@@ -1,9 +1,13 @@
 #!/usr/bin/env python -tt
 # -*- coding: utf-8 -*-
+
+# WORK IN PROGRESS
+# for questions or advice mail me at:
+# bart.berkel at gmail.com
+
 import random
 import pygame
 import time
-import traceback
 # screen init
 screen = pygame.display.set_mode((900, 900))
 screen.fill((160, 160, 160))
@@ -225,8 +229,6 @@ def attackgen(attackingcolor, field_to_check):
 # function that lists all pieces of a color in play
 def givepieces(curcolor):
     piecesonboard = []
-    traceback.print_stack()
-    print
     for item in borddict.items():
         square, piece = item
         if piece.color == curcolor:
