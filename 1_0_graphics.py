@@ -7,7 +7,7 @@
 
 import random
 import pygame
-import time
+
 # screen init
 screen = pygame.display.set_mode((900, 900))
 screen.fill((160, 160, 160))
