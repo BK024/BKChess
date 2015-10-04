@@ -7,9 +7,9 @@
 
 import random
 import pygame
-
 # screen init
-screen = pygame.display.set_mode((900, 900))
+pygame.init()
+screen = pygame.display.set_mode((800, 800))
 screen.fill((160, 160, 160))
 pygame.display.flip()
 # globals
@@ -46,6 +46,8 @@ class Piece(object):
     
     def moveimg(self):
             L, N = self.coord
+            L -= 1
+            N -= 1
             shade = (255, 255, 255) if (L-N) % 2 == 0 else (255, 220, 140)
             screen.fill(shade, rect=(L*100, N*100, 100, 100))
             if self.image:
