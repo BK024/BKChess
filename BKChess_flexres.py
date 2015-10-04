@@ -1,10 +1,8 @@
 #!/usr/bin/env python -tt
 # -*- coding: utf-8 -*-
-
 # WORK IN PROGRESS
 # for questions or advice mail me at:
 # bart.berkel at gmail.com
-
 import random
 import pygame
 # screen init
@@ -12,13 +10,13 @@ pygame.init()
 dispsize = input('The display size will be SxS. Give S:\n')
 relsize = dispsize / 8
 screen = pygame.display.set_mode((dispsize, dispsize))
-screen.fill((160, 160, 160))
+pygame.display.set_caption("BK Chess")
+pygame.display.flip()
+clock = pygame.time.Clock()
+pygame.event.set_blocked([1, 3, 4, 5, 6])
+# globals
 f = open('ChessAlpha2.ttf')
 myfont = pygame.font.Font(f, relsize)
-
-pygame.display.flip()
-
-# globals
 borddict = {}
 situationsdict1 = {}
 situationsdict2 = {}
@@ -131,8 +129,7 @@ def viable_steps(piece):
     return viablepositionlist
 
 # Instatiating all pieces, including empty fields.
-# Kings are listed, using dummy to make for colorbased (-1 or 1) indexing
-# So are the rooks.
+# Kings and rooks are listed, using a dummy for colorbased (-1 or 1) indexing
 fontpieceslist = [['dummy'], ['i', 'k', 'j', 'l', 'm', 'n'], ['I', 'K', 'J',' L', 'M', 'N']]
 for L in R9:
     for N in R9:
@@ -223,7 +220,6 @@ def movepiece(piece, oldsquare, newsquare):
         enpassantdict[(oldsquare[0], oldsquare[1]+1)] = piece
     if piece.type == 'Pawn' and newsquare[1] in [8, 1]:
         newpiece = picknewpiece(piece, newsquare)
-        
     return True
 
 # function that checks if a field is being attacked
@@ -246,8 +242,6 @@ def givepieces(curcolor):
         square, piece = item
         if piece.color == curcolor:
             piecesonboard.append((piece, square))
-        else:
-            continue
     return piecesonboard
 
 # function that determines possibilities of castling
@@ -335,7 +329,16 @@ def newgame(curcolor):
         valid_move = False
         print
         print 'A new turn', count
-        raw_input()
+        keypressed = False
+        pygame.event.clear()
+        while not keypressed:
+            clock.tick(10)
+            for event in pygame.event.get():
+                print event.type
+                if event.type == pygame.QUIT:
+                    return 'You closed the game'
+                elif event.type == pygame.KEYDOWN:
+                    keypressed = True
         hascastled = False
         curcolor = -curcolor
         castleops = castlecheck(curcolor)
@@ -392,9 +395,6 @@ def newgame(curcolor):
                 if piece.color == -curcolor:
                     enpassantdict = {}
                     break
-
-
-
-
-print newgame(1)
-raw_input()
+reason = newgame(1)
+print reason
+if reason != 'You closed the game': raw_input('Press enter to close')
