@@ -104,7 +104,7 @@ def viable_steps(piece):
         steplist.extend(Diasteps)
     elif type_ == 'Rook':
         steplist.extend(Strsteps)
-    elif type_ == 'Hnight':
+    elif type_ == 'Knight':
         steplist = Hrssteps
         Reach = [1]
     else:
@@ -145,8 +145,8 @@ for player in [[1, 'White', [8, 7]], [-1, 'Black',  [1, 2]]]:
     rooks.append(newpiece)
     newpiece = Piece('Rook', c, C, 5, (1, R), img=fontpiecescol[3])
     rooks.append(newpiece)
-    newpiece = Piece('Hnight', c, C, 3, (2, R), img=fontpiecescol[1])
-    newpiece = Piece('Hnight', c, C, 3, (7, R), img=fontpiecescol[1])
+    newpiece = Piece('Knight', c, C, 3, (2, R), img=fontpiecescol[1])
+    newpiece = Piece('Knight', c, C, 3, (7, R), img=fontpiecescol[1])
     newpiece = Piece('Bishop', c, C, 3, (3, R), img=fontpiecescol[2])
     newpiece = Piece('Bishop', c, C, 3, (6, R), img=fontpiecescol[2])
     newpiece = Piece('King', c, C, 0, (5, R), img=fontpiecescol[5])
@@ -168,7 +168,7 @@ def picknewpiece(piece, nwsq):
     newpiece = random.choice([1, 2, 2])
     Box[piece.color].append(piece)
     if newpiece == 1:
-        promo = Piece('Hnight', c, C, 3, nwsq, img=fontpiecescol[1])
+        promo = Piece('Knight', c, C, 3, nwsq, img=fontpiecescol[1])
     else:
         promo = Piece('Queen', c, C, 9, nwsq, img=fontpiecescol[4])
     promo.moveimg()
@@ -381,7 +381,8 @@ def newgame(curcolor):
                 checkinglist.append(next(new_checkgen))
                 check = True
                 for i in checkinglist:
-                    print 'Checked by %s' % i[0].name
+                    print '%s is checked by %s' % (kingslist[-curcolor].name,
+                                                                  i[0].name)
             except StopIteration:
                 done = True
         count += 1
