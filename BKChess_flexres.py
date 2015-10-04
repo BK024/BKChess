@@ -172,7 +172,7 @@ def picknewpiece(piece, nwsq):
     else:
         promo = Piece('Queen', c, C, 9, nwsq, img=fontpiecescol[4])
     promo.moveimg()
-    print 'Promotion: The new piece is a %s' % promo.type
+    print 'Promotion: The new piece is a %s %s' % (promo.cstr.lower(), promo.type)
     return promo
 
 # function that moves pieces in the borddict
