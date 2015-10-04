@@ -167,6 +167,7 @@ def picknewpiece(piece, nwsq):
     global Box
     C = piece.color
     c = piece.cstr
+    fontpiecescol = fontpieceslist[C]
     newpiece = random.choice([1, 2, 2])
     Box[piece.color].append(piece)
     if newpiece == 1:
@@ -179,6 +180,7 @@ def picknewpiece(piece, nwsq):
 
 # function that moves pieces in the borddict
 def movepiece(piece, oldsquare, newsquare):
+    global borddict
     global fiftycount
     global Box
     global enpassantdict
@@ -221,7 +223,7 @@ def movepiece(piece, oldsquare, newsquare):
         enpassantdict[(oldsquare[0], oldsquare[1]+1)] = piece
     if piece.type == 'Pawn' and newsquare[1] in [8, 1]:
         newpiece = picknewpiece(piece, newsquare)
-        newpiece.coord = newsquare
+        
     return True
 
 # function that checks if a field is being attacked
