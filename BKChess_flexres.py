@@ -327,14 +327,11 @@ def newgame(curcolor):
         if fiftycount == 50:
             return '50 without capturing a piece or pawn movement.'
         valid_move = False
-        print
-        print 'A new turn', count
         keypressed = False
         pygame.event.clear()
         while not keypressed:
             clock.tick(10)
             for event in pygame.event.get():
-                print event.type
                 if event.type == pygame.QUIT:
                     return 'You closed the game'
                 elif event.type == pygame.KEYDOWN:
