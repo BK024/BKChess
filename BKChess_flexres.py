@@ -13,6 +13,7 @@ screen = pygame.display.set_mode((dispsize, dispsize))
 pygame.display.set_caption("BK Chess")
 pygame.display.flip()
 clock = pygame.time.Clock()
+pygame.key.set_repeat(10, 10)
 pygame.event.set_blocked([1, 3, 4, 5, 6])
 # globals
 f = open('ChessAlpha2.ttf')
@@ -172,7 +173,8 @@ def picknewpiece(piece, nwsq):
     else:
         promo = Piece('Queen', c, C, 9, nwsq, img=fontpiecescol[4])
     promo.moveimg()
-    print 'Promotion: The new piece is a %s %s' % (promo.cstr.lower(), promo.type)
+    print 'Promotion: The new piece is a %s %s' % (promo.cstr.lower(), 
+                                                                   promo.type)
     return promo
 
 # function that moves pieces in the borddict
@@ -334,7 +336,7 @@ def newgame(curcolor):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return 'You closed the game'
-                elif event.type == pygame.KEYDOWN:
+                elif any(pygame.key.get_pressed()):
                     keypressed = True
         hascastled = False
         curcolor = -curcolor
