@@ -18,7 +18,6 @@ size = dispsize / 8
 screen = pygame.display.set_mode((dispsize, dispsize))
 pygame.display.set_caption("BK Chess")
 pygame.display.flip()
-clock = pygame.time.Clock()
 pygame.key.set_repeat(10, 10)
 pygame.event.set_blocked([1, 3, 4, 5, 6])
 # globals
@@ -330,7 +329,7 @@ def newgame(curcolor):
         keypressed = False
         pygame.event.clear()
         while not keypressed:
-            clock.tick(10)
+            pygame.time.Clock().tick(10)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return 'You closed the game'
