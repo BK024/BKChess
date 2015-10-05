@@ -5,10 +5,16 @@
 # bart.berkel at gmail.com
 import random
 import pygame
+import sys
 # screen init
 pygame.init()
-dispsize = input('The display size will be SxS. Give S:\n')
-relsize = dispsize / 8
+try:
+    dispsize = int(sys.argv[1])
+except IndexError:
+    print 'Resolution is 500. For other resolution\
+ run progam with resolution as parameter.\nGame starts\n\n'
+    dispsize = 500
+size = dispsize / 8
 screen = pygame.display.set_mode((dispsize, dispsize))
 pygame.display.set_caption("BK Chess")
 pygame.display.flip()
@@ -17,7 +23,7 @@ pygame.key.set_repeat(10, 10)
 pygame.event.set_blocked([1, 3, 4, 5, 6])
 # globals
 f = open('ChessAlpha2.ttf')
-myfont = pygame.font.Font(f, relsize)
+myfont = pygame.font.Font(f, size)
 borddict = {}
 situationsdict1 = {}
 situationsdict2 = {}
@@ -39,12 +45,11 @@ class Piece(object):
         self.N = coord[1]
         self.img = myfont.render(img, True, (0, 0, 0)) if img  else img
         self.name = type_ + cstr
-        self.img = pygame.transform.chop(self.img, pygame.Rect(0, (relsize*0.8), (relsize*0.6), relsize)) if self.name == 'RookBlack' else self.img
+        self.img = pygame.transform.chop(self.img, pygame.Rect(0, (size*0.8), (size*0.6), size)) if self.name == 'RookBlack' else self.img
         self.pos = self.img.get_rect() if img  else 0
         self.cstr = cstr
         self.type = type_
         self.color = color
-        self.worth = worth
         self.attacked = False
         self.unmoved = True
         self.coord = coord
@@ -55,11 +60,10 @@ class Piece(object):
             L -= 1
             N -= 1
             shade = (255, 255, 255) if (L-N) % 2 == 0 else (255, 220, 140)
-            squarerect = pygame.Rect(L*relsize, N*relsize, relsize, relsize)
+            squarerect = pygame.Rect(L*size, N*size, size, size)
             screen.fill(shade, squarerect)
             if self.img:
-                self.pos = self.img.get_rect()
-                self.pos = self.pos.move((L*relsize)+(relsize/5), N*relsize)
+                self.pos = self.img.get_rect().move((L*size)+(size/5), N*size)
                 screen.blit(self.img, self.pos)
             pygame.display.flip()
 
@@ -92,8 +96,6 @@ def viable_steps(piece):
                 if borddict[pstep].color == -color or \
                         pstep in enpassantdict:
                     viablepositionlist.append(pstep)
-            else:
-                continue
         if strstep[0] in R9 and strstep[1] in R9:
             if not borddict[strstep].color:
                 viablepositionlist.append(strstep)
@@ -202,7 +204,6 @@ def movepiece(piece, oldsquare, newsquare):
             return False
         except StopIteration:
             break
-    del new_gen
     Box[oldpiece.color].append(oldpiece)
     if oldpiece.color != 0 or piece.type == 'Pawn':
         situationsdict1 = {}
@@ -284,7 +285,6 @@ def castlecheck(color):
             else:
                 if not attack and not borddict[square].color:
                     bool_squarelist[L].append(True)
-            del Agen
         L += 1
     if Rshort.unmoved and len(bool_squarelist[0]) == 2:
         castleoptions.append([[myking, mycsquares[0][1]],
@@ -299,8 +299,7 @@ def savegamestate(castleopsboth):
     global situationsdict1
     global situationsdict2
     situationstring = ''
-    for item in sorted(borddict.items(), key=lambda x: str(x[0]) + str(x[1])):
-        field, piece = item
+    for field, piece in sorted(borddict.items(), key=lambda x: str(x[0]) + str(x[1])):
         situationstring += (str(piece.name) + str(field))
     for item in enpassantdict.items():
         situationstring += str(item)
@@ -316,7 +315,6 @@ def savegamestate(castleopsboth):
             return
     else:
         situationsdict1[hashedstring] = 1
-        return
 
 # controller
 def newgame(curcolor):
@@ -389,7 +387,6 @@ def newgame(curcolor):
                 done = True
         count += 1
         fiftycount += 1
-        del new_checkgen
         if len(enpassantdict):
             for piece in enpassantdict.values():
                 if piece.color == -curcolor:
